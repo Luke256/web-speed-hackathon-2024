@@ -81,9 +81,6 @@ app.get('*', async (c) => {
         </StaticRouter>,
       ),
     );
-    console.log(c);
-    console.log(c.req);
-    console.log(c.req.path);
 
     const styleTags = sheet.getStyleTags();
     const html = await createHTML({ body, injectData, styleTags });
