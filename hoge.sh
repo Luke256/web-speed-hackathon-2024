@@ -3,7 +3,7 @@
 # ファイルパスのみ表示する
 # 重複して表示されるファイルは一度だけ表示する
 
-str="INDEX_HTML_PATH"
+str="global.js"
 
 # grep -r $str . | cut -d: -f1 | sort | uniq
 grep -r $str . --exclude-dir=node_modules | cut -d: -f1 | sort | uniq
