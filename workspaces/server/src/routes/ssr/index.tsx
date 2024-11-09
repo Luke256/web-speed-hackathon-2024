@@ -84,6 +84,7 @@ app.get('*', async (c) => {
 
     const styleTags = sheet.getStyleTags();
     const html = await createHTML({ body, injectData, styleTags });
+    console.log('created html:', html);
 
     return c.html(html);
   } catch (cause) {
