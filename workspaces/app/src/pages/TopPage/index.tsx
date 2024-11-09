@@ -1,5 +1,3 @@
-import _ from 'lodash';
-import moment from 'moment-timezone';
 import { Suspense, useId } from 'react';
 
 import { BookCard } from '../../features/book/components/BookCard';
@@ -13,12 +11,14 @@ import { Flex } from '../../foundation/components/Flex';
 import { Spacer } from '../../foundation/components/Spacer';
 import { Text } from '../../foundation/components/Text';
 import { Color, Space, Typography } from '../../foundation/styles/variables';
-import { getDayOfWeekStr } from '../../lib/date/getDayOfWeekStr';
+// import { getDayOfWeekStr } from '../../lib/date/getDayOfWeekStr';
 
 import { CoverSection } from './internal/CoverSection';
 
 const TopPage: React.FC = () => {
-  const todayStr = getDayOfWeekStr(moment());
+  const day = new Date().getDay();
+  const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'] as const;
+  const todayStr = days[day] as typeof days[number];
   const { data: release } = useRelease({ params: { dayOfWeek: todayStr } });
   const { data: featureList } = useFeatureList({ query: {} });
   const { data: rankingList } = useRankingList({ query: {} });
@@ -40,8 +40,8 @@ const TopPage: React.FC = () => {
           <Spacer height={Space * 2} />
           <Box maxWidth="100%" overflowX="scroll" overflowY="hidden">
             <Flex align="stretch" direction="row" gap={Space * 2} justify="flex-start">
-              {_.map(featureList, (feature) => (
-                <FeatureCard key={feature.id} bookId={feature.book.id} />
+              {featureList!=null && featureList.map((feature) => (
+                <FeatureCard key={feature.id} book={feature.book} />
               ))}
             </Flex>
           </Box>
@@ -56,8 +56,8 @@ const TopPage: React.FC = () => {
           <Spacer height={Space * 2} />
           <Box maxWidth="100%" overflowX="hidden" overflowY="hidden">
             <Flex align="center" as="ul" direction="column" justify="center">
-              {_.map(rankingList, (ranking) => (
-                <RankingCard key={ranking.id} bookId={ranking.book.id} />
+              {rankingList!=null && rankingList.map((ranking) => (
+                <RankingCard key={ranking.id} book={ranking.book} />
               ))}
             </Flex>
           </Box>
@@ -72,8 +72,8 @@ const TopPage: React.FC = () => {
           <Spacer height={Space * 2} />
           <Box maxWidth="100%" overflowX="scroll" overflowY="hidden">
             <Flex align="stretch" gap={Space * 2} justify="flex-start">
-              {_.map(release.books, (book) => (
-                <BookCard key={book.id} bookId={book.id} />
+              {release!=null && release.books!=null && release.books.map((book) => (
+                <BookCard key={book.id} book={book} />
               ))}
             </Flex>
           </Box>
