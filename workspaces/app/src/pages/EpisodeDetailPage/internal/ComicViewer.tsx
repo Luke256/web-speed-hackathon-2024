@@ -27,13 +27,23 @@ const _Wrapper = styled.div<{
   overflow: hidden;
 `;
 
+type Episode = {
+  id: string;
+  pages: {
+    id: string;
+    image: {
+      id: string;
+    };
+  }[];
+};
+
 type Props = {
-  episodeId: string;
+  episode: Episode;
 };
 
 const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
 
-export const ComicViewer: React.FC<Props> = ({ episodeId }) => {
+export const ComicViewer: React.FC<Props> = ({ episode }) => {
   // 画面のリサイズに合わせて再描画する
   const rerender = useUpdate();
   useInterval(rerender, 0);
@@ -55,7 +65,7 @@ export const ComicViewer: React.FC<Props> = ({ episodeId }) => {
   return (
     <_Container ref={ref}>
       <_Wrapper $maxHeight={viewerHeight}>
-        <ComicViewerCore episodeId={episodeId} />
+        <ComicViewerCore episode={episode} />
       </_Wrapper>
     </_Container>
   );

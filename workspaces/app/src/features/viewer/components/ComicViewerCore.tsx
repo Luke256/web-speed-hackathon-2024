@@ -94,16 +94,26 @@ const _Wrapper = styled.div<{
   }
 `;
 
+type Episode = {
+  id: string;
+  pages: {
+    id: string;
+    image: {
+      id: string;
+    };
+  }[];
+}
+
 type Props = {
-  episodeId: string;
+  episode: Episode;
 };
 
-const ComicViewerCore: React.FC<Props> = ({ episodeId }) => {
+const ComicViewerCore: React.FC<Props> = ({ episode }) => {
   // 画面のリサイズに合わせて再描画する
   const rerender = useUpdate();
   useInterval(rerender, 0);
 
-  const { data: episode } = useEpisode({ params: { episodeId } });
+  // const { data: episode } = useEpisode({ params: { episodeId } });
 
   const [container, containerRef] = useState<HTMLDivElement | null>(null);
   const [scrollView, scrollViewRef] = useState<HTMLDivElement | null>(null);
@@ -218,10 +228,10 @@ const ComicViewerCore: React.FC<Props> = ({ episodeId }) => {
   );
 };
 
-const ComicViewerCoreWithSuspense: React.FC<Props> = ({ episodeId }) => {
+const ComicViewerCoreWithSuspense: React.FC<Props> = ({ episode }) => {
   return (
     <Suspense fallback={null}>
-      <ComicViewerCore episodeId={episodeId} />
+      <ComicViewerCore episode={episode} />
     </Suspense>
   );
 };
